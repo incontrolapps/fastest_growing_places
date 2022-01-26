@@ -16,8 +16,8 @@ let uk_position=(max-uk)/range
 {/each}
 <line x1={100} x2={180} y1={250 + (500 * place_position)} y2={250+ (place_position*(500))} stroke=darkblue stroke-width=8 stroke-linecap="round" ></line>
 <text x=160 y={240 + (place_position*(500))} fill=darkblue font-size=12pt>here</text>
-{#if step==1}<line x1={100} x2={180} y1={250 + (uk_position*(500))} y2={250 + (uk_position*(500))} stroke=blue stroke-width=8 stroke-linecap="round" ></line>
-<text x=160 y={240 + (uk_position*(500))} fill=blue font-size=12pt>average</text>{/if}
+{#if step==1}<line x1={100} x2={180} y1={250 + (uk_position*(500))} y2={250 + (uk_position*(500))} stroke=darkred stroke-width=8 stroke-linecap="round" ></line>
+<text x=160 y={240 + (uk_position*(500))} fill=darkred font-size=12pt>average</text>{/if}
 <text x=160 y={260} fill=grey font-size=12pt>Tower</text>
 <text x=160 y={275} fill=grey font-size=12pt>Hamlets</text>
 <text x=160 y={740} fill=grey font-size=12pt>Barrow-</text>
