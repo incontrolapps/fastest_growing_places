@@ -19,11 +19,13 @@
   import Tab_H3 from './H3.svelte'
   import Tab_P from './P.svelte'
   import Animated_charts from './vis_components/animated_charts/src/App.svelte'
+  import Football from './vis_components/football2/src/App.svelte'  
+  import Pyramids from './vis_components/animated_pyramids/src/App.svelte' 
   import { getData, setColors, getTopo, getBreaks, getColor } from "./utils.js";
   // import archie from './scroll_section'
   import { load } from 'archieml' //this is the parser from ArchieML to JSON
 	import robojournalist from 'robojournalist';
-  import Vis1 from "./vis_components/vis1/App.svelte";
+  import Vis1 from "./vis_components/Select/App.svelte";
   import { all_data } from './stores.js';
 import { exclude_internal_props } from 'svelte/internal';
 	let theme = "light";
@@ -32,12 +34,11 @@ import { exclude_internal_props } from 'svelte/internal';
   import {step} from './vis_components/animated_charts/src/step'
   import  { disableScroll,enableScroll } from './disableScroll'
   import { zm } from './vis_components/animated_charts/src/zm'
-
-
+  import ArrivalsDepartures from './vis_components/arrivals_departures/src/App.svelte'
 	setContext("theme", theme);
 	setColors(themes, theme);
 
-  $: console.log($all_data)
+//  $: console.log($all_data)
 
   export let story
 
@@ -46,15 +47,18 @@ import { exclude_internal_props } from 'svelte/internal';
     .then((txt) => {
       story = load(txt).ScrollY
     })
-  $: console.log(story)
+//  $: console.log(story)
 
   let components = {
     Animated_charts: Animated_charts,
+    Football:Football,
+    Pyramids:Pyramids,
     LA_selector_map: Vis1,
     SC1: SC1,
     Tab_H3: Tab_H3,
     Tab_P: Tab_P,
-    Map1:Map1
+    Map1:Map1,
+    ArrivalsDepartures:ArrivalsDepartures
   }
   let content = ''
 
@@ -72,7 +76,7 @@ import { exclude_internal_props } from 'svelte/internal';
 	//let map = null; // Bound to mapbox 'map' instance once initialised
   let map;
   function fitBounds(bounds) {
-    console.log(map)
+  //  console.log(map)
     alert("fittingBounds")
 		if (map) {
 			map.fitBounds(bounds, {animate: animation, padding: 30});
@@ -101,7 +105,7 @@ import { exclude_internal_props } from 'svelte/internal';
 
 
   
-  $: console.log(metadata)
+  // $: console.log(metadata)
 	$: region = selected && metadata.district.lookup ? metadata.district.lookup[selected].parent : null; // Gets region code for 'selected'
 //	$: chartHighlighted = metadata.district.array && region ? metadata.district.array.filter(d => d.parent == region).map(d => d.code) : []; // Array of district codes in 'region'
   $: bounds && fitBounds(bounds)
@@ -118,7 +122,7 @@ import { exclude_internal_props } from 'svelte/internal';
     codes.forEach((code) => {
       if (id[code] != idPrev[code]) {
         step.set(id[code])
-        console.log(code)
+   //     console.log(code)
         idPrev[code] = id[code]
       }
     })
@@ -127,7 +131,7 @@ import { exclude_internal_props } from 'svelte/internal';
 
   onMount(() => {
     idPrev = { scatterChart: 'scatterChart01' }
-    console.log(id)
+  //  console.log(id)
     step.set(0)
   })
 //$: console.log(id)
@@ -138,9 +142,9 @@ import { exclude_internal_props } from 'svelte/internal';
     Map1: { bounds, mapKey, mapHighlighted, explore }
   }
 
-$: console.log(map)
-$: {if(step) console.log("STEP",$step)}
-$: document.querySelector("#selected") && console.log("bbox",document.querySelector("#selected").getBBox())
+// $: console.log(map)
+// $: {if(step) console.log("STEP",$step,"ID",id)}
+// $: document.querySelector("#selected") && console.log("bbox",document.querySelector("#selected").getBBox())
 </script>
 
 {#if story}
@@ -148,13 +152,15 @@ $: document.querySelector("#selected") && console.log("bbox",document.querySelec
 
 
 <Header bgcolor="#206095" bgfixed={true} theme="dark" center={false} short={true}>
-	<h1>{story[0].Part.headline}</h1><br>
+	<h1>{@html  story[0].Part.headline}</h1>
+  <p style="margin-top: 20px">
+		09 February 2021
+	</p>
+  <br>
 	<p class="text-big" style="margin-top: 5px">
-		{story[0].Part.lede}
-	</p>
-	<p style="margin-top: 20px">
-		16 December 2021
-	</p>
+		{@html  story[0].Part.lede}
+	</p><br>
+
 	<p>
 		<Toggle label="Animation {animation ? 'on' : 'off'}" mono={true} bind:checked={animation}/>
 	</p>
@@ -163,18 +169,17 @@ $: document.querySelector("#selected") && console.log("bbox",document.querySelec
 	</div>
 </Header>
 
-<Filler theme="lightblue" short={true} wide={true} center={false}>
+<Filler className="nutgraf" style="height:100vh" theme="lightblue" short={true} wide={true} center={false}>
 	<p class="text-big">
-		{story[0].Part.nutgraf}
+		{@html  story[0].Part.nutgraf}
 	</p>
+  <Vis1/>
 </Filler>
-<!--
-<Section>
-	<h2>{story[0].Part.start.content}</h2>
-<Vis1/>
-</Section>
-<Divider/>
--->
+
+
+
+
+
 
 {#if $all_data}
   {#each story as chunk, i}
@@ -244,7 +249,10 @@ $: document.querySelector("#selected") && console.log("bbox",document.querySelec
 	:global(svg) {
 		pointer-events: all !important;
 	}*/
-
+  :global(.nutgraf){
+  height:100vh;
+  left:0
+}
 	select {
 		max-width: 350px;
 	}

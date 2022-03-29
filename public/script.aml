@@ -1,330 +1,281 @@
 [ScrollY]
-
+ 
 {.Part}
 type:Static
-headline:Fastest growing places
-lede:The number of people of different ages living in in different parts of England and Wales is in constant flux. In these first results from the 2011 Census, we look at which places have grown or shrunk, where the population is ageing and how areas compare.
-nutgraf:Censuses are ten-year snapshots. The 2021 Census was carried out in March 2021, during the coronavirus (COVID-19) pandemic. Other events, like the continued effect of the 2008 financial crash, the 2012 Olympics and Brexit may also have influenced where we live compared to ten years ago.
-{.start}
-content: Select your area to see how the population has changed in your local authority since 2001
+headline:<br>Fastest growing places
+lede:The population of England and Wales has grown by 3.7 million in the 10 years leading up to Census 2011. Using the first results from the census, we look at which places have seen the biggest changes, which populations are ageing fastest, and how your area compares to other areas.
+ 
+nutgraf:The Census is a survey that happens every 10 years. The latest one gives us a picture of all the people and households in England and Wales in March 2011. <br><br>The population of England was 53 million in 2011, up by 4 million (7.9%) in a decade. In Wales, the population was 3.1 million, up by 153,300 (5%). <br><br>Select your area below to see how the population has changed where you live and how it compares with others.
 datavis: LA_selector_map
 {}
-{}
-
+ 
 ****** POPULATION CHANGE ******
 {.Part}
 type:Scroller
 background:Animated_charts
-family:scatterChart
+family:animated
 [.foreground]
 {.section}
 {.actions}
 data-id:0
 data-xKey:area
-data-yKey:null
-data-zKey:null
-data-rKey:null
-data-explore:false
 {}
-content:In {NAME}, the population has <b> {LA.ABS_CHANGE.FROM01TO11 0 >? risen : fallen } </b> from {LA.ABS.Y01 ,} in 2001 to {LA.ABS.Y11 ,} in 2011, {LA.ABS_CHANGE.FROM01TO11 0 >? an increase of {LA.PC_CHANGE.FROM01TO11 ~abs .1}% in a decade.:a drop of {LA.PC_CHANGE.FROM01TO11 ~abs .1}% in a decade}
+content:In {NAME}, the population has <b> {LA.ABS_CHANGE.FROM01TO11 0 >? risen : fallen } </b> from {LA.ABS.Y01 .-2 ,} in 2001 to {LA.ABS.Y11 .-2 ,} in 2011, {LA.ABS_CHANGE.FROM01TO11 0 >? an increase of {LA.PC_CHANGE.FROM01TO11 ~abs .1}% in a decade.:a drop of {LA.PC_CHANGE.FROM01TO11 ~abs .0}% in a decade}
 {}
-
+ 
 {.section}
 {.actions}
 data-id:1
-data-xKey:area
-data-yKey:null
-data-zKey:null
-data-rKey:pop
-data-explore:false
+data-highlighted:
 {}
-content:{LA.ABS_CHANGE.FROM01TO11 0 >?This is {LA.PC_CHANGE.FROM01TO11 COUNTRY.PC_CHANGE.FROM01TO11 - COUNTRY.PC_CHANGE.FROM01TO11 2 / >? considerably : slightly } {LA.PC_CHANGE.FROM01TO11 COUNTRY.PC_CHANGE.FROM01TO11 >? more : less } than {COUNTRY_NAME '} average of {COUNTRY.PC_CHANGE.FROM01TO11 .1}%. :This is the opposite to the national trend, {COUNTRY_NAME} has seen {COUNTRY.PC_CHANGE.FROM01TO11 .1}% growth.}
+content:Some nearby areas like {NEIGHBOURS.PC_CHANGE.top.NAME} and {NEIGHBOURS.PC_CHANGE.second.NAME} have seen their populations increase by {NEIGHBOURS.PC_CHANGE.top.VAL .0}% and {NEIGHBOURS.PC_CHANGE.second.VAL .1}% respectively, while others such as {NEIGHBOURS.PC_CHANGE.last.NAME} ({NEIGHBOURS.PC_CHANGE.last.VAL .1}%) and {NEIGHBOURS.PC_CHANGE.penultimate.NAME} ({NEIGHBOURS.PC_CHANGE.penultimate.VAL .1}%) have seen slower growth.
 {}
-
+ 
 {.section}
 {.actions}
 data-id:2
-data-xKey:area
-data-yKey:density
-data-zKey:null
-data-rKey:pop
+data-bounds:ew
+data-mapKey:null
+mapHighlighted:[]
 data-explore:false
 {}
-content:{NAME '} total population of {LA.ABS.Y11 ,} people is fairly typical for local authority districts in England and Wales. Hover over this map to see compare with other places you know.
+content:The sharpest population increases in {REGION_NAME} have been seen in {REGION.HEADLINES.BIGGEST_POP_CHANGE_UP.top.LAD17NM} and {REGION.HEADLINES.BIGGEST_POP_CHANGE_UP.second.LAD17NM}, where the population has grown by {REGION.HEADLINES.BIGGEST_POP_CHANGE_UP.top.CHANGE}% and {REGION.HEADLINES.BIGGEST_POP_CHANGE_UP.second.CHANGE}%.
 {}
-
+ 
 {.section}
 {.actions}
 data-id:3
-data-xKey:area
-data-yKey:density
-data-zKey:null
-data-rKey:pop
-data-explore:false
 {}
-content:In 2011, {NAME} ranks {LA.COUNTRY_RANK.Y11.here ~ord} out of {LA.COUNTRY_RANK.Y11.all} in the population league table for {COUNTRY_NAME}, {LA.COUNTRY_RANK.Y11.here LA.COUNTRY_RANK.Y01.here >?a fall of {LA.COUNTRY_RANK.Y11.here LA.COUNTRY_RANK.Y01.here -} places in a decade.:}{LA.COUNTRY_RANK.Y11.here LA.COUNTRY_RANK.Y01.here <? moving up {LA.COUNTRY_RANK.Y01.here LA.COUNTRY_RANK.Y11.here -} places in a decade.:}{LA.COUNTRY_RANK.Y11.here LA.COUNTRY_RANK.Y01.here -?:maintaining the same position it held a decade ago.}
+content:At the other end of the scale, {REGION.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.LAD17NM} has seen {REGION.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.CHANGE 0 <?a drop of {REGION.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.CHANGE}%:}{REGION.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.CHANGE 0 >?an increase of just {REGION.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.CHANGE}%:}{REGION.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.CHANGE?:no notable change at all.}
 {}
-
+ 
+ 
 {.section}
 {.actions}
 data-id:4
-data-xKey:area
-data-yKey:density
-data-zKey:parent_name
-data-rKey:pop
-data-explore:false
 {}
-content:Some neighboring areas like {NEIGHBOURS.PC_CHANGE.top.NAME} and {NEIGHBOURS.PC_CHANGE.second.NAME} have seen their populations increase by {NEIGHBOURS.PC_CHANGE.top.VAL .1}% and {NEIGHBOURS.PC_CHANGE.second.VAL .1}% respectively, whereas others such as {NEIGHBOURS.PC_CHANGE.last.NAME} ({NEIGHBOURS.PC_CHANGE.last.VAL .1}%) and {NEIGHBOURS.PC_CHANGE.penultimate.NAME} ({NEIGHBOURS.PC_CHANGE.penultimate.VAL .1}%) have seen slower growth.
+content:{LA.ABS_CHANGE.FROM01TO11 0 >?{NAME '} population change is {LA.PC_CHANGE.FROM01TO11 COUNTRY.PC_CHANGE.FROM01TO11 - COUNTRY.PC_CHANGE.FROM01TO11 2 / >? considerably : slightly } {LA.PC_CHANGE.FROM01TO11 COUNTRY.PC_CHANGE.FROM01TO11 >? higher : lower } than the average for {COUNTRY_NAME} ({COUNTRY.PC_CHANGE.FROM01TO11 .1}%). :This is the opposite to the national trend}.
 {}
-
+ 
 {.section}
 {.actions}
 data-id:5
-data-bounds:ew
-data-mapKey:null
-mapHighlighted:[]
-data-explore:false
 {}
-content:The sharpest population increases in {REGION_NAME} have been seen in {REGION.HEADLINES.BIGGEST_POP_CHANGE_UP.top.LAD17NM} and {REGION.HEADLINES.BIGGEST_POP_CHANGE_UP.second.LAD17NM}, where the population has grown by {REGION.HEADLINES.BIGGEST_POP_CHANGE_UP.top.CHANGE}% and {REGION.HEADLINES.BIGGEST_POP_CHANGE_UP.second.CHANGE}%. At the other end of the scale, {REGION.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.LAD17NM} has seen {REGION.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.CHANGE 0 <?a drop of {REGION.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.CHANGE}%:}{REGION.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.CHANGE 0 >?an increase of just {REGION.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.CHANGE}%:}{REGION.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.CHANGE?:no notable change at all.}
+content:{COUNTRY.HEADLINES.BIGGEST_POP_CHANGE_UP.top.LAD17NM} saw the largest percentage growth in its population, rising {COUNTRY.HEADLINES.BIGGEST_POP_CHANGE_UP.top.CHANGE}% between 2001 and 2011. {COUNTRY.HEADLINES.BIGGEST_POP_CHANGE_UP.second.LAD17NM} was second, rising {COUNTRY.HEADLINES.BIGGEST_POP_CHANGE_UP.second.CHANGE}%.
 {}
-
+ 
 {.section}
 {.actions}
 data-id:6
-data-bounds:uk
-data-mapKey:null
-mapHighlighted:[]
-data-explore:false
 {}
-content:{NAME} is classified as an area of <i>"{CLASS}"</i>, which also applies to {LA.CLASS_RANK.DENSITY.Y11.all 1 -} other Local Authority Districts in England and Wales. This classification groups {NAME} together with places with similar demographic characteristics such as {TWINS.first.LAD17NM}, {TWINS.second.LAD17NM}, or {TWINS.third.LAD17NM}. The average population change for such areas is {LA.CLASS_CHANGE_MEAN .1}%
+content:A few places have seen their populations decline. In {COUNTRY.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.LAD17NM} in the {COUNTRY.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.GOR10NM}, the resident population was an estimated {COUNTRY.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.TOTAL11 .-2 ,} in 2011, which is {COUNTRY.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.TOTAL01 COUNTRY.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.TOTAL11 - .-2 .-2 ,} fewer than in 2001, and a decrease of {COUNTRY.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.CHANGE ~abs}%.
 {}
-
+ 
+ 
 {.section}
 {.actions}
-data-id:0
-data-bounds:ew
-data-mapKey:null
-mapHighlighted:[]
-data-explore:false
+data-id:7
 {}
-content:A few places have seen their populations decline. In {COUNTRY.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.LAD17NM} in the {COUNTRY.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.GOR10NM}, the resident population was an estimated {COUNTRY.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.TOTAL11 ,} in 2011, {COUNTRY.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.TOTAL01 COUNTRY.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.TOTAL11 - ,} fewer than in 2001, and a decrease of {COUNTRY.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.CHANGE ~abs}%.
+content:The total population of local authority areas varies considerably, from Birmingham, with over 1 million people, to the Isles of Scilly with little more than two thousand people. The area of these circles indicates total population.
 {}
+ 
+ 
+{.section}
+{.actions}
+data-id:8
+{}
+content:In 2011, {NAME} ranked {LA.COUNTRY_RANK.Y11.here ~ord} for total population out of {LA.COUNTRY_RANK.Y11.all} local authority districts in {COUNTRY_NAME}, {LA.COUNTRY_RANK.Y11.here LA.COUNTRY_RANK.Y01.here >?a fall of {LA.COUNTRY_RANK.Y11.here LA.COUNTRY_RANK.Y01.here -} places in a decade.:}{LA.COUNTRY_RANK.Y11.here LA.COUNTRY_RANK.Y01.here <? moving up {LA.COUNTRY_RANK.Y01.here LA.COUNTRY_RANK.Y11.here -} places in a decade.:}{LA.COUNTRY_RANK.Y11.here LA.COUNTRY_RANK.Y01.here -?:maintaining the same position it held a decade ago.}
+{}
+ 
+:skip UNTIL CLASS RANK IS RESOLVED
+ 
+{.section}
+{.actions}
+data-id:1
+{}
+content:The ONS classifies areas according to their demographic characteristics. {NAME} is in the group <i>"{CLASS}"</i>, which also applies to {LA.CLASS_RANK.DENSITY.Y11.all 1 -} other Local Authority Districts in England and Wales such as {TWINS.first.LAD17NM}, {TWINS.second.LAD17NM}, or {TWINS.third.LAD17NM}. This kind of place has grown more than the average.
+{}
+
+:endskip
+
 []
 {}//end of first Scroller
+ 
+ 
+:skip
+ 
+{.Part}
+type:Scroller
+background:Map1
+family:map
+[.foreground]
+[]
+{}//end of second Scroller
+:endskip
 
 ****** DENSITY ******
 {.Part}
 type:Filler
-content:How close we live to one another has changed too. In almost all areas of England and Wales, population density has been increasing.
+content:While the population has risen, the amount of land in England and Wales has not. Some areas have seen their population density increase much more than others.
+ 
 {}//end of Filler
-
+ 
 {.Part}
 type:Scroller
-background:BC1
-family:barChart
+background:Football
+family:football
 [.foreground]
 {.section}
 {.actions}
-data-id:barChart_08
-data-xKey:area
-data-yKey:null
-data-zKey:null
-data-rKey:null
-data-explore:false
+data-id:9
 {}
-content:{LA.UTLA_RANK.DENSITY.Y11.here LA.UTLA_RANK.DENSITY.Y11.all 2 / >?As of 2011, {NAME} is the {LA.UTLA_RANK.DENSITY.Y11.here LA.UTLA_RANK.DENSITY.Y11.here - ~ord} most sparsely populated of {UTLA_NAME '} {LA.UTLA_RANK.DENSITY.Y11.all} districts, with around {LA.DENSITY.DENSITY11 187 / .2} people living on each football pitch sized area of land:As of 2011, {NAME} is the {LA.UTLA_RANK.DENSITY.Y11.here ~ord} most densely populated of {UTLA_NAME '} {LA.UTLA_RANK.DENSITY.Y11.all} districts, with around {LA.DENSITY.DENSITY11 187 / .2} people living on each football pitch sized area of land}.
+content:{LA.UTLA_RANK.DENSITY.Y11.here LA.UTLA_RANK.DENSITY.Y11.all 2 / >?As of 2011, {NAME} is the {LA.UTLA_RANK.DENSITY.Y11.here LA.UTLA_RANK.DENSITY.Y11.here - ~ord} most sparsely populated of {UTLA_NAME '} {LA.UTLA_RANK.DENSITY.Y11.all} districts, {187 LA.DENSITY.DENSITY11 / 1 >?with an area equivilant to {187 LA.DENSITY.DENSITY11 / .0} football pitches per resident: with around {LA.DENSITY.DENSITY11 187 / .0} people living on each football pitch sized area of land}:As of 2011, {NAME} is the {LA.UTLA_RANK.DENSITY.Y11.here ~ord} most densely populated of {UTLA_NAME '} {LA.UTLA_RANK.DENSITY.Y11.all} districts, with around {LA.DENSITY.DENSITY11 187 / .0} people living on each football pitch sized area of land}.
 {}
-
+ 
 {.section}
 {.actions}
-data-id:barChart_09
-data-xKey:area
-data-yKey:null
-data-zKey:null
-data-rKey:pop
-data-explore:false
+data-id:10
 {}
-content:To put this in context, {COUNTRY.HEADLINES.FOOTBALL_PITCH_EXTREMES.lowest.LAD17NM} in {COUNTRY.HEADLINES.FOOTBALL_PITCH_EXTREMES.lowest.CTY17NM} houses {COUNTRY.HEADLINES.FOOTBALL_PITCH_EXTREMES.lowest.PEOPLE_PER_FOOOTY_PITCH .2} people per pitch, 
+content:In {COUNTRY.HEADLINES.FOOTBALL_PITCH_EXTREMES.highest.LAD17NM} in {COUNTRY.HEADLINES.FOOTBALL_PITCH_EXTREMES.highest.CTY17NM} the population works out at around {COUNTRY.HEADLINES.FOOTBALL_PITCH_EXTREMES.highest.PEOPLE_PER_FOOOTY_PITCH .0} per pitch. That is equivalent to seven football teams playing at once.
 {}
-
+ 
 {.section}
 {.actions}
-data-id:barChart_10
-data-xKey:area
-data-yKey:density
-data-zKey:null
-data-rKey:pop
-data-explore:false
+data-id:11
 {}
-content:while {COUNTRY.HEADLINES.FOOTBALL_PITCH_EXTREMES.highest.LAD17NM} in {COUNTRY.HEADLINES.FOOTBALL_PITCH_EXTREMES.highest.CTY17NM} sleeps an impressive {COUNTRY.HEADLINES.FOOTBALL_PITCH_EXTREMES.highest.PEOPLE_PER_FOOOTY_PITCH .0} per pitch, equivalent to seven football teams playing at once! The most dramatic change in density has been seen in {COUNTRY.HEADLINES.NEW_PLAYERS_BY_CLASS.first.CLASS} areas, where an additional {COUNTRY.HEADLINES.NEW_PLAYERS_BY_CLASS.first.ADDITIONAL_PLAYERS .0} players have been drafted onto each pitch in the last 10 years.
+content:At the other end of the population density scale, the amount of land in the rural district of Eden, Cumbria, works out at nearly seven pitches per resident.
 {}
+:skip
+{.section}
+{.actions}
+data-id:1
+{}
+content:The population growth seen in {COUNTRY.HEADLINES.BIGGEST_POP_CHANGE_UP.top.LAD17NM} is equivalent to an additional {COUNTRY.HEADLINES.NEW_PLAYERS_BY_CLASS.first.ADDITIONAL_PLAYERS .0} players were drafted onto each pitch in the 10 years to 2011.
+{}
+:endskip
 []
 {}//end of third Scroller
-
+ 
 ****** AGE ******
 {.Part}
 type:Filler
-content:As well as increasing in size, the population of {COUNTRY_NAME} has generally got older in the past decade.
+content:The population of England/Wales has generally got older in the past decade.
 {}//end of Filler
-
-{.Part}
-type:Quiz
-content:Our population is ageing due to falling birth rates and people living longer. But where are the youngest areas in England and Wales?
-response:The youngest areas in England and Wales are --- and ---, followed by --- and ---.
-{}//end of Quiz
-
+ 
 {.Part}
 type:Scroller
-background:PP1
+background:Pyramids
 family:pp
 [.foreground]
-{.section}
-{.actions}
-data-id:pp_11
-data-xKey:area
-data-yKey:null
-data-zKey:null
-data-rKey:null
-data-explore:false
-{}
-content:The average (median) age in {NAME} is {LA.MEDIAN_AGE.Y11}, {LA.MEDIAN_AGE.Y11 COUNTRY.MEDIAN_AGE.Y11 <? younger than: older than} average compared to England and Wales and {LA.MEDIAN_AGE.Y11 REGION.MEDIAN_AGE.Y11 <? younger than: older than} than the average for {REGION_NAME}.
-{}
 
 {.section}
 {.actions}
-data-id:pp_02
-data-xKey:area
-data-yKey:null
-data-zKey:null
-data-rKey:pop
-data-explore:false
+data-id:12
 {}
-content:Looking at the split of people of different ages living in an area we can get an idea of what proportion are retired, working or in education, although people may do these things at various ages.
+content:In 2011 the largest age group in {NAME} was people aged {LA.LARGEST_AGEGROUP.AGEBAND} to {LA.LARGEST_AGEGROUP.AGEBAND 4 +}.
 {}
-
+ 
 {.section}
 {.actions}
-data-id:pp_12
-data-xKey:area
-data-yKey:density
-data-zKey:null
-data-rKey:pop
-data-explore:false
+data-id:13
 {}
-content:In {NAME}, there has been {LA.OVER65.ABS.Y11 LA.OVER65.ABS.Y01 - 0 >?an increase:a decrease} in the number of people aged over 66, which is State Pension age. This age group now makes up {LA.OVER65.PC.Y11 .1}% of {NAME '} population.
+content:In {COUNTRY_NAME} the largest age-group was people in their late forties.
 {}
-
-
+ 
 {.section}
 {.actions}
-data-id:pp_13
-data-xKey:area
-data-yKey:density
-data-zKey:null
-data-rKey:pop
-data-explore:false
+data-id:14
 {}
-content:In {NAME}, there has been {LA.OVER65.ABS.Y11 LA.OVER65.ABS.Y01 - 0 >?an increase:a decrease} in the number of people aged over 66, which is State Pension age. This age group now makes up {LA.OVER65.PC.Y11 .1}% of {NAME '} population.
+content:Overall in {COUNTRY_NAME}, there has been an {COUNTRY.OVER65.ABS.Y11 COUNTRY.OVER65.ABS.Y01 - COUNTRY.OVER65.ABS.Y01 / 100 * .0}% {COUNTRY.OVER65.ABS.Y11 COUNTRY.OVER65.ABS.Y01 >?rise:fall} in people aged 65 years and over, a {COUNTRY.WORKING.ABS.Y11 COUNTRY.WORKING.ABS.Y01 - COUNTRY.WORKING.ABS.Y01 / 100 * .0}%, a {COUNTRY.WORKING.ABS.Y11 COUNTRY.WORKING.ABS.Y01 >?rise:fall} in in people aged 20 to 65 years, and a {COUNTRY.UNDER20.ABS.Y11 COUNTRY.UNDER20.ABS.Y01 - COUNTRY.UNDER20.ABS.Y01 / 100 * .0}% {COUNTRY.UNDER20.ABS.Y11 COUNTRY.UNDER20.ABS.Y01 >?rise:fall} in people aged under 20 years.
 {}
-
+ 
 {.section}
 {.actions}
-data-id:pp_14
-data-xKey:area
-data-yKey:density
-data-zKey:null
-data-rKey:pop
-data-explore:false
+data-id:15
 {}
-content:The proportion of people in {NAME} of working age has {LA.WORKING.ABS.Y11 LA.WORKING.ABS.Y01 - 0 >?grown:shrunk} to {LA.WORKING.PC.Y11 .1}% of the population. 
+content:This is how {NAME} compares. There has been a {LA.OVER65.ABS.Y11 LA.OVER65.ABS.Y01 - LA.OVER65.ABS.Y01 / 100 * .0 ~abs}% {LA.OVER65.ABS.Y11 LA.OVER65.ABS.Y01 >?rise:fall} in people aged 65 years and over, a {LA.WORKING.ABS.Y11 LA.WORKING.ABS.Y01 - LA.WORKING.ABS.Y01 / 100 * .0}%, a {LA.WORKING.ABS.Y11 LA.WORKING.ABS.Y01 >?rise:fall} in in people aged 20 to 65 years, and a {LA.UNDER20.ABS.Y11 LA.UNDER20.ABS.Y01 - LA.UNDER20.ABS.Y01 / 100 * .0}% {LA.UNDER20.ABS.Y11 LA.UNDER20.ABS.Y01 >?rise:fall} in people aged under 20 years.
 {}
-
+ 
+ 
 {.section}
 {.actions}
-data-id:pp_15
-data-xKey:area
-data-yKey:density
-data-zKey:null
-data-rKey:pop
-data-explore:false
+data-id:16
 {}
-content:Around {LA.UNDER18.PC.Y11 .1}% of the people in {NAME} are under 18.
+content:The places that have seen the highest increase in proportion of over-65s are South Lakeland, East Lindsey and North Norfolk.
 {}
-
+ 
 {.section}
 {.actions}
-data-id:pp_16
-data-xKey:area
-data-yKey:density
-data-zKey:null
-data-rKey:pop
-data-explore:false
+data-id:17
 {}
-content:Overall in {COUNTRY_NAME}, there has been {COUNTRY.OVER65.ABS.Y11 COUNTRY.OVER65.ABS.Y01 - COUNTRY.OVER65.ABS.Y01 / 100 * .0}% {COUNTRY.OVER65.ABS.Y11 COUNTRY.OVER65.ABS.Y01 >?growth:decline} in retirement-age people, {COUNTRY.WORKING.ABS.Y11 COUNTRY.WORKING.ABS.Y01 - COUNTRY.WORKING.ABS.Y01 / 100 * .0}% {COUNTRY.WORKING.ABS.Y11 COUNTRY.WORKING.ABS.Y01 >?growth:decline} in working-age people, and {COUNTRY.UNDER18.ABS.Y11 COUNTRY.UNDER18.ABS.Y01 - COUNTRY.UNDER18.ABS.Y01 / 100 * .0}% {COUNTRY.UNDER18.ABS.Y11 COUNTRY.UNDER18.ABS.Y01 >?growth:decline} in people aged under 18.
+content: The proportion of children has increased most in Luton, Slough and Milton Keynes.
 {}
-
-{.section}
-{.actions}
-data-id:pp_17
-data-xKey:area
-data-yKey:density
-data-zKey:null
-data-rKey:pop
-data-explore:false
-{}
-content:The male-female split everywhere is generally about 50/50. However, women tend to live longer, so older areas will typically have more women than men. {NAME} has a split of {LA.OVER65.ABS.F ,} females to {LA.OVER65.ABS.M ,} males in the over-66 age group.
-{}
-
+ 
 []
 {}//end of 4th Scroller
+ 
+*** SEX ***
+{.Part}
+type:Filler
+content:Around 51% of the population of England and Wales is female and 49% is male. However, women tend to live longer than men, so areas with an older population typically have more females than males.
+{}//end of Filler
+ 
+{.Part}
+type:Scroller
+background:Pyramids
+family:verticalBar
+[.foreground]
+ 
+{.section}
+{.actions}
+data-id:18
+{}
+content:In the 65 and over age group, {NAME} has a split of 14,500 females to 9,600 males.
+{}
+ 
+{.section}
+{.actions}
+data-id:19
+{}
+content:The most male places in England/Wales are City of London, Richmondshire and Newham. The most female places; West Somerset, Rother and Arun.
 
+{}
+[]
+{}//end of fifth Scroller
+ 
 ****** COHORTS ******
 {.Part}
 type:Filler
-content:Tracking the change in population size of a cohort, for example women born in 1974, allows us a glimpse of how many new arrivals or departures an area has seen, over and above the ususal coming and going of the population. For example, we typically see drops in the number of 20-somethings in towns with fewer further eduction facilities, as young adults move away from home to study. Other Census data provides a more in-depth understanding of which people have moved.
+content:Tracking the change in population size of people born in different eras allows us a glimpse of how people move.
 {}//end of Filler
-
+ 
 {.Part}
 type:Scroller
-background:VB1
+background:ArrivalsDepartures
 family:verticalBar
 [.foreground]
 {.section}
 {.actions}
-data-id:verticalBar_18
-data-xKey:area
-data-yKey:null
-data-zKey:null
-data-rKey:null
-data-explore:false
+data-id:20
 {}
-content:In {NAME}, the number of women born in {LA.HEADLINES.ARRIVE_DEPART.F.greatest_increase.birth} has increased by {LA.HEADLINES.ARRIVE_DEPART.F.greatest_increase.increment}%, whereas women born in {LA.HEADLINES.ARRIVE_DEPART.F.greatest_decrease_under65.birth} are {LA.HEADLINES.ARRIVE_DEPART.F.greatest_decrease_under65.increment ~abs}% less numerous in 2011 than they were in 2001.
+content:Women born {LA.HEADLINES.ARRIVE_DEPART.F.greatest_increase.birth} are the largest group to have moved to {NAME} in the decade between the censuses, increasing the size of this cohort by {LA.HEADLINES.ARRIVE_DEPART.F.greatest_increase.increment}% in a decade. The number of men born {LA.HEADLINES.ARRIVE_DEPART.M.greatest_increase.birth} has increased by {LA.HEADLINES.ARRIVE_DEPART.M.greatest_increase.increment}%. This suggests that Dagenham mainly attracts (middle aged) people.
 {}
-
+ 
 {.section}
 {.actions}
-data-id:verticalBar_19
-data-xKey:area
-data-yKey:null
-data-zKey:null
-data-rKey:pop
-data-explore:false
+data-id:21
 {}
-content:Looking at {NAME '} men, those born in {LA.HEADLINES.ARRIVE_DEPART.M.greatest_increase.birth} have increased in number by {LA.HEADLINES.ARRIVE_DEPART.M.greatest_increase.increment}%, whereas there are {LA.HEADLINES.ARRIVE_DEPART.M.greatest_decrease_under65.increment ~abs}% fewer men who were born in {LA.HEADLINES.ARRIVE_DEPART.M.greatest_decrease_under65.birth} than a decade previously.
+content:The number of people born in the late 1950's has dropped by 13%, indicating that people move away from the area when they retire.
 {}
-
-{.section}
-{.actions}
-data-id:verticalBar_20
-data-xKey:area
-data-yKey:density
-data-zKey:null
-data-rKey:pop
-data-explore:false
-{}
-content:Nationally, we can see that net migration has been greatest in working age people.
-{}
+ 
 []
 {}//end of fifth Scroller
 
+{.Part}
+type:Filler
+
+content:We're publishing more insights from Census 2021. These first results are from the more detailed <u>bulletin</u>.<br><br>You can find out more about what's changed in your area since 2011 with our <u>local page</u>.<br><br>Test your population knowledge with this <u>online game</u>. The top score recorded to date was 152. Good luck!<br><br><br>Future census topics to be released include<br><ul><li>Households and their characteristics</li><li>Ethnicity, identity, language and religion</li></ul><br>Explore more census content <u>here</u>.
+
+{}
 []//end of ScrollY
+

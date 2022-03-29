@@ -8,20 +8,20 @@ let uk_position=(max-uk)/range
 
 </script>
 
-<svg id="key" height=1000>
-<text x=125 y={800} text-anchor=middle fill=grey>{key}</text>    
+<svg id="key" height=500 viewBox="0 0 400 1000">
+<text x=150 y={800} text-anchor=middle  font-size=24pt fill=grey>{key}</text>    
 {#each arr as clr,i}
 <rect width=50 height={500/arr.length} x=100 y={250 + (500/arr.length) * i} fill={interpolateViridis(i/(arr.length-1))} />
 {#if clr%10==0  || i==0 || i==arr.length-1}<text x=90 y={260 + ((500/arr.length) * i)} fill=grey text-anchor=end>{clr}{percent?"%":""}</text>{/if}
 {/each}
 <line x1={100} x2={180} y1={250 + (500 * place_position)} y2={250+ (place_position*(500))} stroke=darkblue stroke-width=8 stroke-linecap="round" ></line>
-<text x=160 y={240 + (place_position*(500))} fill=darkblue font-size=12pt>here</text>
+<text x=160 y={240 + (place_position*(500))} fill=darkblue font-size=24pt>here</text>
 {#if step==1}<line x1={100} x2={180} y1={250 + (uk_position*(500))} y2={250 + (uk_position*(500))} stroke=darkred stroke-width=8 stroke-linecap="round" ></line>
-<text x=160 y={240 + (uk_position*(500))} fill=darkred font-size=12pt>average</text>{/if}
-<text x=160 y={260} fill=grey font-size=12pt>Tower</text>
-<text x=160 y={275} fill=grey font-size=12pt>Hamlets</text>
-<text x=160 y={740} fill=grey font-size=12pt>Barrow-</text>
-<text x=160 y={755} fill=grey font-size=12pt>in-Furness</text>
+<text x=160 y={240 + (uk_position*(500))} fill=darkred font-size=24pt>average</text>{/if}
+<text x=160 y={260} fill=grey font-size=24pt>Tower</text>
+<text x=160 y={290} fill=grey font-size=24pt>Hamlets</text>
+<text x=160 y={725} fill=grey font-size=24pt>Barrow-</text>
+<text x=160 y={755} fill=grey font-size=24pt>in-Furness</text>
 </svg>
 
 <style>

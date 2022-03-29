@@ -18,6 +18,9 @@
   import { writable } from 'svelte/store';
   import {step} from './step'
   import Key from './Key.svelte'
+  import { all_data } from '../../../stores.js';
+
+console.log ("ALL DATA", $all_data)
 	const padding = 20
   const width = 650 - padding*2
   const height = 650 - padding*2
@@ -30,7 +33,7 @@
 	let axes
 	let loaded
 	
-	$: console.log($zm)
+	//$: console.log($zm)
   let data = []
 	let timeline	
   let currentProj = mercator
@@ -59,7 +62,7 @@ let FirstMeridian = +path({
   let newData
   //let current = 0
 	let metric
-	let selected="E09000002"
+	let selected = writable();//="E09000002"
 	let x=0,y=0,k=1
 //console.log(path().projection([0,0]))
 	
@@ -86,7 +89,7 @@ let FirstMeridian = +path({
 						verticalStrokes:false,
 						horizontalStrokes:true
 			}
-		console.log("axes", axes)
+		//console.log("axes", axes)
     let x = []
     arr.forEach((e, i) => {
       x.push({
@@ -102,7 +105,7 @@ let FirstMeridian = +path({
         mouseout: mouseout,
 				pop:arr[i].pop,
 				y:writable(arr[i].centroid[1]),
-				selected:arr[i].properties.AREACD==selected,
+				selected:arr[i].properties.AREACD==$selected,
 				label_opacity:tweened(0),
         zoom:arr[i].zoom
       })
@@ -130,7 +133,7 @@ k:tweened(k, {duration:200})
   let mouseout = function (d) { select('.tooltip').style('opacity', 0) }
 	
   function redrawData(datas, zm) {
-		console.log("PATH",path.centroid({lat:0,long:0}))
+		//console.log("PATH",path.centroid({lat:0,long:0}))
     data.forEach(
       (e) =>
         (e.growth = growth.find((el) => el.LAD17CD == e.properties.AREACD) || {
@@ -151,7 +154,7 @@ k:tweened(k, {duration:200})
     data.forEach((e)=>e.zoom=Math.sqrt(1/(Math.max(...[e.bounds[1][0]-e.bounds[0][0],e.bounds[1][1]-e.bounds[0][1]])/width)))
 		data.forEach((e) => (e.colour= interpolateViridis(1-scaleColor(e.growth,datas,"growth"))))
 		
-		console.log(data)
+		//console.log(data)
     let extents = {
       pop: extent(datas.map((e) => e.pop)),
       growth: extent(datas.map((e) => e.growth)),
@@ -162,9 +165,15 @@ k:tweened(k, {duration:200})
 
 //% GROWTH BAR CHART
 
-		bar.height=(height)/data.length
-		bar.left=padding+(Math.abs(extents.growth[0])/(extents.growth[1]-extents.growth[0]))*width
-		bar.scale=(1/(extents.growth[1]-extents.growth[0]))*width
+    let bar_data = JSON.parse(JSON.stringify(growth)).filter(e=>e.REGION==$all_data.REGION_CODE).sort((a,b)=>b.GROWTH-a.GROWTH)
+    //console.log("BAR_DATA",bar_data)
+    let bar_extents = {
+      growth: extent(bar_data.map((e) => e.GROWTH/100)),
+    }
+    //console.log("barExtents",bar_extents)
+		bar.height=(height)/bar_data.length
+		bar.left=padding+(Math.abs(bar_extents.growth[0])/(bar_extents.growth[1]-bar_extents.growth[0]))*width
+		bar.scale=(1/(bar_extents.growth[1]-bar_extents.growth[0]))*width
 
 		let chart=charts.find(e=>e.chart=="bar")
 		chart.axis.x.origin=bar.left
@@ -172,15 +181,68 @@ k:tweened(k, {duration:200})
 		chart.axis.y.origin=height+padding
 		chart.axis.y.spacing=height/10
 
-    data.forEach(
-			
-      (e, i) =>
-        (e.bar = `M${bar.left} ${i * bar.height + padding}, ${
-          bar.left + e.growth * bar.scale 
-        } ${i * bar.height + padding}, ${bar.left + e.growth *  bar.scale } ${
+    data.forEach((e, i) => {
+      e.bar = `M${0} ${0}, ${
+          0} ${0}, ${0} ${0},${0} ${0}Z`
+    })
+
+    bar_data.forEach((e, i) =>{
+      let bar_id=e.LAD17CD;
+      let data_point=data.findIndex(el=>el.properties.AREACD==bar_id)
+      if(data[data_point]){
+        //console.log(data[data_point])
+        data[data_point].bar=
+        (`M${bar.left} ${i * bar.height + padding}, ${
+          bar.left + e.GROWTH/100 * bar.scale 
+        } ${i * bar.height + padding}, ${bar.left + e.GROWTH/100 *  bar.scale } ${
           bar.height + i * bar.height
-        + padding},${bar.left} ${bar.height + i * bar.height+ padding }Z`),
+        + padding},${bar.left} ${bar.height + i * bar.height+ padding }Z`)
+        }}
+        
     )
+data = data.sort((a, b) => b.growth - a.growth)
+    //console.log("bar_data",data)
+
+//% NATIONAL GROWTH BAR CHART
+
+let national_bar_data = JSON.parse(JSON.stringify(growth)).filter(e=>e.LAD17CD[0]==$selected[0]).sort((a,b)=>b.GROWTH-a.GROWTH)
+   // console.log("BAR_DATA",national_bar_data)
+    let national_bar_extents = {
+      growth: extent(national_bar_data.map((e) => e.GROWTH/100)),
+    }
+    //console.log("barExtents",national_bar_extents)
+		bar.height=(height)/national_bar_data.length
+		bar.left=padding+(Math.abs(national_bar_extents.growth[0])/(national_bar_extents.growth[1]-national_bar_extents.growth[0]))*width
+		bar.scale=(1/(national_bar_extents.growth[1]-national_bar_extents.growth[0]))*width
+
+		let national_chart=charts.find(e=>e.chart=="national_bar")
+		national_chart.axis.x.origin=bar.left
+		national_chart.axis.x.spacing=width/10
+		national_chart.axis.y.origin=height+padding
+		national_chart.axis.y.spacing=height/10
+
+    data.forEach((e, i) => {
+      e.national_bar = `M${0} ${0}, ${
+          0} ${0}, ${0} ${0},${0} ${0}Z`
+    })
+
+    national_bar_data.forEach((e, i) =>{
+      let bar_id=e.LAD17CD;
+      let data_point=data.findIndex(el=>el.properties.AREACD==bar_id)
+      if(data[data_point]){
+        //console.log(data[data_point])
+        data[data_point].national_bar=
+        (`M${bar.left} ${i * bar.height + padding}, ${
+          bar.left + e.GROWTH/100 * bar.scale 
+        } ${i * bar.height + padding}, ${bar.left + e.GROWTH/100 *  bar.scale } ${
+          bar.height + i * bar.height
+        + padding},${bar.left} ${bar.height + i * bar.height+ padding }Z`)
+        }}
+        
+    )
+data = data.sort((a, b) => b.growth - a.growth)
+    //console.log("bar_data",data)
+
 //ABSOLUTE SPIKES ON MAP
 
 		chart=charts.find(e=>e.chart=="absolute")
@@ -189,7 +251,7 @@ k:tweened(k, {duration:200})
 		chart.axis.y.origin=height+padding+(height/10)
 		chart.axis.y.spacing=(Greenwich-FirstMeridian)/10	
 		
-		data=data.sort((a,b)=>b.abs-a.abs)
+	data=data.sort((a,b)=>b.abs-a.abs)
 	    data.forEach((e, i) => {
       let peak = e.pop>e.growth/10?e.pop * (e.growth/60000):1
 
@@ -309,6 +371,7 @@ k:tweened(k, {duration:200})
     return data
   }
 
+
   onMount(async function () {
 		
     const response = await fetch( 'https://raw.githubusercontent.com/ONSvisual/topojson_boundaries/master/geogLA2021EW.json',
@@ -320,7 +383,7 @@ k:tweened(k, {duration:200})
       features: topoData.features,
     }
     data = land.features
-    newData = redrawData(data, 1)
+    //newData = redrawData(data, 1)
   })
 
   //const scaleExtent = extent(growth.map((e) => e.GROWTH))
@@ -334,6 +397,7 @@ k:tweened(k, {duration:200})
 //console.log(Object.keys(new_charts[0]))
   function forward(current) {
 //console.log("SHAPES",selectAll('.shape').sort((a,b) => ascending(a.y, b.y)))
+if (charts.length>current){
 		axes.x_origin.set(charts[current].axis.x.origin)
 		axes.x_offset.set(charts[current].axis.x.spacing)
 		axes.y_origin.set(charts[current].axis.y.origin)
@@ -344,9 +408,14 @@ k:tweened(k, {duration:200})
    // let zoomFactor=charts[current].zoom
     let item=select(document.getElementById("selected"))
     let itemScale=item.attr("zoom")
-    let zoomFactor=charts[current].zoom*itemScale    
+    let zoomFactor=charts[current].zoom*itemScale
 		let focus = select(document.getElementById("selected")).attr("centroid").split(',').map((e,i)=>i==0?(width/2)-(zoomFactor*e):(-zoomFactor*e)+(height/2))
+    let highlighted=charts[current].highlight
 
+if(highlighted){
+
+
+}
 
 if (zoomFactor){
   zm.set(zoomFactor)
@@ -374,16 +443,28 @@ if (zoomFactor){
 				step.metric.set(charts[current].tooltip_metric)
 				step.value.set(newData[i][charts[current].value])
 				step.title.set(newData[i].properties.AREANM)
-				step.fill.set(newData[i].colour)
+				if(charts[current].highlight){
+          step.fillOpacity.set(0.3);
+        if (charts[current].highlight==1 && Object.values($all_data.NEIGHBOURS.PC_CHANGE).map(e=>e.CODE).includes(newData[i].properties.AREACD)||newData[i].properties.AREACD==$selected)step.fillOpacity.set(1)
+        if (charts[current].highlight==2 && Object.values($all_data.REGION.HEADLINES.BIGGEST_POP_CHANGE_UP).map(e=>e.LAD17CD).includes(newData[i].properties.AREACD)||newData[i].properties.AREACD==$selected)step.fillOpacity.set(1)
+        if (charts[current].highlight==3 && ($all_data.REGION.HEADLINES.BIGGEST_POP_CHANGE_DOWN.lowest.LAD17CD==newData[i].properties.AREACD)||newData[i].properties.AREACD==$selected)step.fillOpacity.set(1)
+        if (charts[current].highlight==4 && Object.values($all_data.COUNTRY.HEADLINES.BIGGEST_POP_CHANGE_UP).map(e=>e.LAD17CD).includes(newData[i].properties.AREACD)||newData[i].properties.AREACD==$selected)step.fillOpacity.set(1)
+        if (charts[current].highlight==5 && Object.values($all_data.COUNTRY.HEADLINES.BIGGEST_POP_CHANGE_DOWN).map(e=>e.LAD17CD).includes(newData[i].properties.AREACD)||newData[i].properties.AREACD==$selected)step.fillOpacity.set(1)
+      }
+    
+    
+    else step.fillOpacity.set(1)
       //	console.log(count,newData[i].xys)
     })
     //current = (current + 1) % charts.length
+  }
   }
 	
 	function back() {current = (current + charts.length - 2) % charts.length;
 									 forward()
 									}
 $: $step && axes && loaded && forward($step)
+$: {  selected.set($all_data.CODE); newData=redrawData(data) }
 </script>
 
 <style>
@@ -405,7 +486,7 @@ $: $step && axes && loaded && forward($step)
 
 
 
-<ZoomSvg zm={$zm} {...zoomState} viewBox="0 0 650 650">
+<ZoomSvg id="charts1" zm={$zm} {...zoomState} viewBox="0 0 650 650">
   {#if timeline}
 	<Axis {...axes}/>
     {#each timeline as feature, i}
@@ -417,6 +498,7 @@ $: $step && axes && loaded && forward($step)
 	<use xlink:href="#selected"/>
 	<use xlink:href="#selectedText"/>	
   {/if}
+
 </ZoomSvg>
 <div class="tooltip" style="opacity:0" />
-<Key percent={true} key='percentage growth' uk=7.9 place=13.4 max=30 min={-5} step={$step}></Key>
+  <Key percent={true} key='percentage growth' uk=7.9 place={$all_data.LA.PC_CHANGE.FROM01TO11} max=30 min={-5} step={$step}></Key>
